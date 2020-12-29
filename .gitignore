@@ -1,0 +1,10 @@
+/node-csgo/
+/node_modules/
+/server/config.js
+/server/csgo-client/servers
+/server/csgo-client/servers.json
+/public/bin
+/public/src/vendors
+/public/src/css/*.css
+/public/src/index.html
+*.sublime-workspace

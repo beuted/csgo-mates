@@ -1,0 +1,34 @@
+<div class="section main-section tracker-section radial" ng-class="bg">
+    <div class="container">
+        <h1 class="responsive_headline">
+            <i class="fa fa-users"></i><br/>
+            Friends
+        </h1>
+
+        <!-- only visible if loading -->
+        <div ng-if="loading" class="row">
+            <h2 class="col-xs-12"><i class="fa fa-circle-o-notch fa-spin"></i></h2>
+        </div>
+
+        <div class="row" ng-if="!loading&&!playerRows.length">
+            <div class="col-xs-12 globalError">
+                <h4 ng-if="user!==null">You don't appear to have any friends playing csgo</h4>
+                <h4 ng-if="user===null">You have to be connected through steam to access your friend page, to connect click on the to right "Sign in" button</h4>
+            </div>
+        </div>
+
+        <!-- table of the search result -->
+        <div ng-if="!loading&&playerRows.length" ng-include="'templates/player-table.html'"></div>
+
+    </div>
+</div>
+<div class="section" id="help-section">
+    <div class="container">
+        <div class="row">
+            <h1>Simply access all your friends</h1>
+        </div>
+        <div class="row">
+            <p>Just connect to csgo-mates.com through steam to be able to <code>see statistics about all your friends</code> playing csgo.</p>
+        </div>
+    </div>
+</div>

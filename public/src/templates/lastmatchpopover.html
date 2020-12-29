@@ -1,0 +1,31 @@
+<div class="lastmatch-popover">
+    <table class="table">
+        <thead>
+            <tr ng-class="[{'good': player.lastMatch.roundsWon > player.lastMatch.roundsTotal/2}, {'middle': player.lastMatch.roundsWon == player.lastMatch.roundsTotal/2}, {'bad': player.lastMatch.roundsWon < player.lastMatch.roundsTotal/2}]">
+                <th>{{player.lastMatch.roundsWon}}/{{player.lastMatch.roundsTotal}}</th>
+                <th class="text-right">
+                    <span ng-if="player.lastMatch.roundsWon > player.lastMatch.roundsTotal/2">Win</span>
+                    <span ng-if="player.lastMatch.roundsWon == player.lastMatch.roundsTotal/2">Tie</span>
+                    <span ng-if="player.lastMatch.roundsWon < player.lastMatch.roundsTotal/2">Lost</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Kill/Death</td>
+                <td class="text-right">{{player.lastMatch.killDeath}}</td>
+            </tr>
+            <tr>
+                <td>Fav. Weapon</td>
+                <td class="text-right">{{player.lastMatch.favWeapon}}</td>
+            </tr>
+            <tr>
+                <td>Accuracy</td>
+                <td class="text-right">{{player.lastMatch.accuracy}}%</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+

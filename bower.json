@@ -1,0 +1,40 @@
+{
+  "name": "csgo-mates",
+  "version": "2.1.2",
+  "authors": [
+    "Benoit deKajoo <dekajoo@gmail.com>"
+  ],
+  "main": "src/js/result.js",
+  "keywords": [
+    "csgo"
+  ],
+  "license": "MIT",
+  "homepage": "http://csgo-mates.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.4.1",
+    "underscore": "1.8.3",
+    "font-awesome": "4.3.0",
+    "bootstrap": "3.3.5",
+    "bootstrap-autohidingnavbar": "1.0.5",
+    "ngSmoothScroll": "1.7.1",
+    "angular-animate": "1.4.12",
+    "ng-notify": "0.6.3",
+    "angular-sanitize": "1.4.12",
+    "angular-ui-router": "0.2.15",
+    "angular-local-storage": "0.2.6",
+    "bignumber.js": "2.0.8",
+    "moment": "2.10.6",
+    "angular-bootstrap": "0.13.4"
+  },
+  "resolutions": {
+    "angular": "~1.4.1",
+    "bootstrap": "~3.0"
+  }
+}

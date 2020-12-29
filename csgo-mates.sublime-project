@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"public/src/css/*.css"
+			],
+			"folder_exclude_patterns":
+			[
+				"node_modules",
+				"public/release",
+				"public/src/vendors",
+				"public/bin"
+			],
+			"path": "."
+		}
+	]
+}

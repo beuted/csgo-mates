@@ -1,0 +1,307 @@
+<div class="section main-section" ng-class="bg" id="main-section">
+    <div class="container">
+
+        <h1 class="responsive_headline">Quickly check who you are playing with</h1>
+
+        <form class="form-horizontal search">
+            <div class="form-group">
+                <div class="col-xs-10">
+                    <input class="form-control" type="text" name="fname"
+                           placeholder="Copy paste profile link (e.g. http://steamcommunity.com/profiles/76561197960751401/)"
+                           ng-model="searchQuery" id="searchArea"></input>
+                </div>
+                <button class="btn btn-success btn-search col-xs-2"
+                        ng-disabled="searchOnGoing || !searchQuery"
+                        ng-click="showResult()" value="Retrieve">
+                    Search
+                </button>
+
+                <button class="btn btn-primary btn-current-game col-sm-4 col-sm-offset-4 col-xs-offset-1 col-xs-10"
+                        ng-click="showMyCurrentMatch()"
+                        ng-if="user">
+                    Find my current game
+                </button>
+                <button class="btn btn-primary btn-current-game col-sm-4 col-sm-offset-4 col-xs-offset-1 col-xs-10"
+                        ng-if="!user"
+                        ng-disabled="'true'">
+                    <span title="You need to be connected" data-toggle="tooltip" tooltip>Find my current game</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="row servstatus" ng-controller="ServerStatusCtrl">
+            <h2 class="col-xs-12">Servers status</h2>
+            <div ng-if="!isWebApiDown">
+                <div class="col-xs-12">
+                    <ul class="text-center">
+                        <li ng-class="datacentersStatus('Australia')">Australia</li>
+                        <li ng-class="datacentersStatus('Brazil')">Brazil</li>
+                        <li ng-class="datacentersStatus('India')">India</li>
+                        <li ng-class="datacentersStatus('Emirates')">Emirates</li>
+                        <li ng-class="datacentersStatus('EU East')">EU East</li>
+                        <li ng-class="datacentersStatus('EU North')">EU North</li>
+                        <li ng-class="datacentersStatus('EU West')">EU West</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12">
+                    <ul class="text-center">
+                        <li ng-class="datacentersStatus('Singapore')">Singapore</li>
+                        <li ng-class="datacentersStatus('South Africa')">South Africa</li>
+                        <li ng-class="datacentersStatus('US Northeast')">US Northeast</li>
+                        <li ng-class="datacentersStatus('US Northwest')">US Northwest</li>
+                        <li ng-class="datacentersStatus('US Southwest')">US Southwest</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12">
+                    <ul class="text-center">
+                        <li ng-class="invStatus().status">
+                            Inventories <i class="fa" ng-class="invStatus().icon"></i>
+                        </li>
+                        <li ng-class="sessionsLogonStatus().status">
+                            Session logon <i class="fa" ng-class="sessionsLogonStatus().icon"></i>
+                        </li>
+                        <li ng-class="schedulerStatus().status">
+                            Scheduler <i class="fa" ng-class="schedulerStatus().icon"></i>
+                        </li>
+                        <li ng-class="searchStatus().status">
+                            Search
+                            <span ng-if="!searchStatus().seconds"><i class="fa fa-circle-o-notch fa-spin"></i></span>
+                            <span ng-if="searchStatus().seconds">{{searchStatus().seconds}}s</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div ng-if="isWebApiDown">
+                <div class="col-xs-12 globalError">
+                    <h4>csgo-mates.com didn't managed to reach steam web api, please try again later <i class="fa fa-frown-o"></i></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span id="result-section"></span>
+
+<div ng-controller="ResultCtrl">
+    <!-- only visible if in game -->
+    <div ng-show="!searchOnGoing && currentMap" class="section result-section bg_csgo">
+        <div class="container">
+            <div class="row">
+                <h1 class="col-xs-12">Live match</h1>
+            </div>
+        </div>
+
+        <div class="resultHeader">
+            <div class="container">
+                <div class="row">
+                    <h2 class="col-xs-3 text-left">{{currentMap}}</h2>
+                    <h1 class="col-xs-6"><img src="img/ct-logo.png" class="ct-logo"></img>{{currentScore[0]}} - {{currentScore[1]}}<img src="img/t-logo.png" class="t-logo"></h1>
+                    <h2 class="col-xs-3 text-right">{{currentTime}}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- table of the search result -->
+            <table class="table resultTable" ng-if="playerRows.length">
+                <thead>
+                    <tr>
+                        <th class="rt-th"></th>
+                        <th class="rt-th">kdr</th>
+                        <th class="rt-th">Win%</th>
+                        <th class="rt-th">Headshot%</th>
+                        <th class="rt-th">Last Match</th>
+                        <th class="rt-th">Legitimacy</th>
+                        <th class="rt-th"></th>
+                    </tr>
+                </thead>
+            </table>
+            <table class="table resultTable ct-side" ng-if="playerRows.length">
+                <tbody>
+                    <tr player-row-directive ng-repeat="player in playerRows | startFrom:0 | limitTo:5" player="player">
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table resultTable t-side" ng-if="playerRows.length">
+                <tbody>
+                    <tr player-row-directive ng-repeat="player in playerRows | startFrom:5 | limitTo:10" player="player">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div align="center">
+            <iframe src="templates/pump.html"
+                    width=728
+                    height=90
+                    marginwidth="0"
+                    marginheight="0"
+                    hspace="0"
+                    vspace="0"
+                    frameborder="0"
+                    scrolling="no"></iframe>
+        </div>
+    </div>
+
+
+    <!-- only visible if loading -->
+    <div ng-show="searchOnGoing" class="section">
+        <div class="container">
+            <div class="row">
+                <h2 class="col-xs-12"><i class="fa fa-circle-o-notch fa-spin"></i></h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- only visible if NOT in game -->
+    <div ng-show="!searchOnGoing&&!currentMap&&player" class="section notInGame-section">
+        <div class="container">
+            <div class="row">
+                <h2 class="col-xs-12">This player is currently not in a matchmaking game</h2>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!searchOnGoing&&player" class="section profile-section radial" ng-class="bg">
+        <!-- player's profile -->
+        <div class="container">
+            <div class="row">
+                <h1 class="col-xs-12">Player profile</h1>
+            </div>
+        </div>
+
+        <div class="profile-header">
+            <div class="container">
+                <div class="row">
+                    <h1 class="col-xs-12">
+                        <a ng-href="{{player.info.profileUrl}}" target="_blank">
+                            <img class="profile-img" ng-src="{{player.info.urlAvatar}}"></img> {{player.info.name}}
+                        </a>
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row profile-stats">
+                <div class="col-sm-4 profile-stats-cell">
+                    <i class="fa fa-crosshairs"></i>
+                    <div class="profile-stats-cell-value">
+                        <div class="value" title="Kill/Death ratio" data-toggle="tooltip" tooltip>{{player.kdr}}</div>
+                        <div class="notice">kill/death ratio</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 profile-stats-cell">
+                    <i class="fa fa-trophy"></i>
+                    <div class="profile-stats-cell-value">
+                        <div class="value" title="Percentage of matches won" data-toggle="tooltip" tooltip>{{player.winPercentage}}%</div>
+                        <div class="notice">Victory %</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 profile-stats-cell">
+                    <img src="img/headshot-darkgray.png"></img>
+                    <div class="profile-stats-cell-value">
+                        <div class="value" title="Percentage of headshot" data-toggle="tooltip" tooltip>{{player.hsPercentage}}%</div>
+                        <div class="notice">headshot %</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row profile-stats">
+                <div class="col-sm-4 profile-stats-cell">
+                    <i class="fa fa-clock-o"></i>
+                    <div class="profile-stats-cell-value">
+                        <div class="value" title="Time spent in match (not counting lobby idling)" data-toggle="tooltip" tooltip>{{player.hoursPlayed}}h</div>
+                        <div class="notice">time spent in game</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 profile-stats-cell">
+                    <i class="fa fa-eye"></i>
+                    <div class="profile-stats-cell-value" title="Number of players who added this player to their suspect list" data-toggle="tooltip" tooltip>
+                        <div class="value">{{player.suspicionStatus.suspicionCount || 0}}x</div>
+                        <div class="notice">Suspected times</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 profile-stats-cell">
+                    <i class="fa fa-gavel"></i>
+                    <div class="profile-stats-cell-value">
+                        <div class="value"
+                             popover-title="Legitimacy hints"
+                             popover-template="'templates/suspicionpopover.html'"
+                             popover-trigger="mouseenter"
+                             popover-placement="top"
+                             popover-append-to-body="true">
+
+                            <span ng-if="player.suspicionStatus.suspicionScore > 0">+</span>{{player.suspicionStatus.suspicionScore}}
+                        </div>
+                        <div class="notice">Legitimacy score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section help-section" id="help-section">
+    <div class="container">
+        <div class="row">
+            <h1>Checking players in your game</h1>
+            <button class="btn btn-default col-sm-4 col-sm-offset-4 col-xs-offset-1 col-xs-10" ng-click="showExample()">Show me how it looks like first !</button>
+        </div>
+        <div class="row">
+            <h2>Checking my current game</h2>
+            <p>Connect to csgo-mates.com through steam using the button in the top right corner <img src="http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_small.png"></img></p>
+            <p>Wait until the match has started and just press the blue button "Find my current game"</p>
+
+            <hr/>
+
+            <h2>Checking an other player's game</h2>
+            <p>You can also check a single player by copy pasting his steamId or the link to his steam profile into the text field.</p>
+            <p><u>Examples of currently supported inputs:</u></p>
+            <p><code>steamcommunity.com/profiles/76561197989267164</code></p>
+            <p><code>http://steamcommunity.com/id/michalkontonr32/</code></p>
+            <p><code>76561197989267164</code></p>
+            <p><code>STEAM_0:0:24607341</code></p>
+
+            <hr/>
+
+            <h2>Getting quick informations about the servers</h2>
+            <p>Just under the text field you can have quick informations about the servers of CSGO, the states of the inventories, the MM scheduler and the average search time of a match.</p>
+            <img class="featureImage" src="img/capture1.png"></img>
+            <p>You still can't use the website after reading this doc, you have questions or feedback about the website ? Please do not hesitate to <a href="http://steamcommunity.com/groups/csgo-mates" target="_blank"> post it to the steam community group</a> or <a href="http://steamcommunity.com/groups/csgo-mates/discussions/0/541906989414149495/" target="_blank">look at the F.A.Q</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="section features-section" ng-class="bg" id="features-section">
+    <div class="container">
+        <div class="row">
+            <h1>What can I do with CSGO MatesChecker?</h1>
+            <p>This website aims to give you a quick overview of the players you are playing with you before the match begins, you can use it in competive games or any other type of game. You will be able to find <code>who are the premades players</code>, get an idea of the level of the player based on his <code>kill-death ratio</code> and his time spent playing cs go.</p>
+            <p>You will also be able to easly check if a player looks <code>legit</code> or could be <code>cheating</code> or <code>smurfing</code> thanks to his legitimacy score (based on his numbe rof digit account, hours in game, and much more) even private profiles cannot hide !</p>
+            <p>You've played against or with a suspicious player? Add him to your suspect list and <code>be notified if he gets banned!</code> Even better, now other players will be able to see that someone is suspecting this player thanks to the <code>suspecting counter</code> on his profile.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section about-section" id="about-section">
+    <div class="container">
+        <div class="row">
+            <h1>About CSGO Mates</h1>
+            <p>This website is built using <code>steam API</code>. You can give me some feedback or support on <a href="http://steamcommunity.com/groups/csgo-mates" target="_blank">the steam community group</a>.</p>
+            <p>If you appreciate the website and want to show your support, <a href="http://steamcommunity.com/tradeoffer/new/?partner=29001436&token=8YdK7FVA" target="_blank">consider sending me a skin <i class="fa fa-smile-o"></i></a>.</p>
+        </div>
+    </div>
+
+    <div align="center">
+        <iframe src="templates/pump.html"
+                width=728
+                height=90
+                marginwidth="0"
+                marginheight="0"
+                hspace="0"
+                vspace="0"
+                frameborder="0"
+                scrolling="no"></iframe>
+    </div>
+</div>

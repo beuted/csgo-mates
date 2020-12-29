@@ -1,0 +1,70 @@
+<div class="section main-section tracker-section radial" ng-class="bg">
+    <div class="container">
+        <h1 class="responsive_headline"><i class="fa fa-eye"></i><br/>
+            <span ng-if="!nbCheaterSpotted">Suspect list</span>
+            <span ng-if="nbCheaterSpotted" class="bad">{{nbCheaterSpotted}} Cheater(s) spotted</span>
+        </h1>
+
+        <!-- only visible if loading -->
+        <div ng-if="loading" class="row">
+            <h2 class="col-xs-12"><i class="fa fa-circle-o-notch fa-spin"></i></h2>
+        </div>
+
+        <div class="row" ng-if="!loading&&!playerRows.length">
+            <div class="col-xs-12 globalError">
+                <h4 ng-if="user!==null">You don't track anybody yet, have a look at the help below</h4>
+                <h4 ng-if="user===null">You have to be connected through steam to add players in your suspect list, to connect click on the to right "Sign in" button</h4>
+            </div>
+        </div>
+
+        <!-- table of the search result -->
+        <div ng-if="!loading&&playerRows.length" ng-include="'templates/player-table.html'"></div>
+
+    </div>
+</div>
+<div class="section" id="help-section">
+    <div class="container">
+        <div class="row">
+            <h1>Track suspicious players</h1>
+        </div>
+        <div class="row">
+            <p>To track a supicious player first you need to search for him or for a game you are playing together in the home tab. Then simply click on the <i class="fa fa-eye-slash"></i> icon at the end of his line in the table of players, he will now appear in the Tracked player tab.</p>
+            <img class="featureImage" src="img/trackcapture.jpg"></img>
+            <p>If you want to stop tracking him just click on the <i class="fa fa-eye"></i> icon again</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <h1>Get notified when suspected players get banned</h1>
+        </div>
+        <div class="row">
+            <p>You will be notified when a player you are suspecting is getting VAC banned or overwatch banned by a change in the suspect icon on the menu.</p>
+            <img class="featureImage" src="img/tracknotifcapture.PNG"></img><!-- TODO img-->
+            <p>This time when you'll access the suspect section, the players caught cheating will appear on red.</p>
+            <img class="featureImage" src="img/trackresultcapture.PNG"></img><!-- TODO img-->
+        </div>
+    </div>
+</div>
+<div class="section features-section" ng-class="bg">
+    <div class="container">
+        <div class="row">
+            <h1>Suspicions are shown on players profile</h1>
+        </div>
+        <div class="row">
+            <p>If you suspect a player <code>it will show on his profile</code> so that other players playing against him can see it. It means that if you choose to suspect someone you are committing on the fact that this player is probably cheating, so <code>be careful on who you suspect!</code></p>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <h1>Information</h1>
+        </div>
+        <div class="row">
+            <p>Due to technical restrictions I need to work on, the number of suspected players is <code>limited to 100</code> per account <i class="fa fa-frown-o"></i></p>
+        </div>
+    </div>
+</div>

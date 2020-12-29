@@ -1,0 +1,250 @@
+.resultTable {
+    font-family: Montserrat, Consolas, 'Courier New', monospace;
+    color: @blackgray;
+
+    a {
+        color: inherit;
+        &:hover, &:focus {
+            text-decoration: none;
+            color: @darkblue;
+        }
+    }
+
+    .rt-tr {
+        cursor: pointer;
+
+        // classes for focus on the searched player
+        &.searched {
+            background-color: @transparent-blue;
+        }
+
+        &:hover, &:focus {
+            background-color: @transparent-white;
+        }
+    }
+
+    .rt-th {
+    }
+
+    .rt-td {
+        position: relative;
+        height: 64px;
+        line-height: 50px;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        //vertical-align: middle !important;
+    }
+
+    // classes for banned player
+    /*.banned {
+        color: @transparent-gray;
+    }
+    .img-banned {
+        opacity: 0.3;
+    }*/
+
+    // classes for focus on player (newly banned)
+    .focus {
+        color: @bad;
+
+        i {
+            color: inherit;
+        }
+    }
+
+    .rt-td-lineinfo {
+        position: absolute;
+        bottom: 20px;
+        display: block;
+        font-size: 15px;
+        line-height: 15px;
+        height: 15px;
+    }
+
+    .rt-td-nameinfo {
+        position: absolute;
+
+        // properly hide text outside the div
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        // responsivity on little screens
+        @media (min-width: @screen-lg) {
+            width: 145px + 211px - 16px;
+        }
+        @media (max-width: @screen-lg) {
+            width: 117px + 170px - 16px;
+        }
+        @media (max-width: @screen-md) {
+            width: 86px + 110px - 16px;
+        }
+        @media (max-width: @screen-sm) {
+            width: 53px + 73px - 16px;
+        }
+    }
+
+    .td-suspicion-info {
+        left: 50%;
+        margin-left: -17px;
+    }
+
+    /* image column */
+    .blockimg {
+        margin: auto 0;
+    }
+
+    .imgprofile {
+        height: 64px;
+        width: 64px;
+        display: inline;
+        float: left;
+        margin: 0;
+    }
+
+    .bande {
+        background-color: transparent;
+        display: inline;
+        float: left;
+        height: 64px;
+
+        .flag {
+            height: 11px;
+            width: 16px;
+            img {
+                vertical-align: top;
+            }
+        }
+        .groupcolor {
+            vertical-align: top;
+            height: 53px;
+            width: 16px;
+        }
+
+        // Unused atm
+/*        .groupcolorExtended {
+            vertical-align: top;
+            opacity: 0.4;
+            height: 53px;
+            width: 16px;
+            height: 0;
+            &.extendedHeight {
+                height: 44px;
+            }
+        }*/
+
+        .color-1 { background-color: @transparent-blue }
+        .color0 { background-color: #779ECB; }
+        .color1 { background-color: #C23B22; }
+        .color2 { background-color: #FF6961; }
+        .color3 { background-color: #00827F; }
+        .color4 { background-color: #FF2448; }
+        .color5 { background-color: #FFB347; }
+        .color6 { background-color: #873260; }
+        .color7 { background-color: #03C03C; }
+        .color8 { background-color: #FFA07A; }
+        .color9 { background-color: #FFFFF0; }
+        .color10 { background-color: #ADFF2F; }
+        .color11 { background-color: #77DD77; }
+        .color12 { background-color: #DEA5A4; }
+        .color13 { background-color: #CFCFC4; }
+        .color14 { background-color: #B39EB5; }
+        // repeat
+        .color15 { background-color: #779ECB; }
+        .color16 { background-color: #C23B22; }
+        .color17 { background-color: #FF6961; }
+        .color18 { background-color: #00827F; }
+        .color19 { background-color: #FF2448; }
+        .color20 { background-color: #FFB347; }
+        .color21 { background-color: #873260; }
+        .color22 { background-color: #03C03C; }
+        .color23 { background-color: #FFA07A; }
+        .color24 { background-color: #FFFFF0; }
+        .color25 { background-color: #ADFF2F; }
+        .color26 { background-color: #77DD77; }
+        .color27 { background-color: #DEA5A4; }
+        .color28 { background-color: #CFCFC4; }
+        .color29 { background-color: #B39EB5; }
+    }
+
+    /* kdr + win% + hs%*/
+    .figure {
+        font-size: 40px;
+        // in order to give some space to the player name and hours played
+
+        // responsivity on little screens
+        @media (max-width: @screen-lg) {
+            font-size: 40px;
+        }
+        @media (max-width: @screen-md) {
+            font-size: 30px;
+        }
+        @media (max-width: @screen-sm) {
+            font-size: 20px;
+        }
+
+        img { //TODO RESPONSIVE PLZ
+            vertical-align: bottom;
+            margin-bottom: 10px;
+            height: 36px;
+        }
+    }
+
+    a.info-tip {
+        cursor: default;
+    }
+
+    .supspicion-number {
+        min-width: 35px;
+        color: white !important;
+        background-color: @blue;
+    }
+
+    .popover-button {
+        cursor: default;
+        margin: 0;
+    }
+
+    // fixed width for the image td
+    .tdImage {
+        width: 97px;
+    }
+
+    .tdFlag {
+        padding-left: 0;
+        padding-right: 0;
+
+        .eye {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            font-size: 24px;
+
+            &:hover, &:focus {
+                color: @darkblue;
+            }
+        }
+        .flagged {
+            //todo
+        }
+        .not-flagged {
+            color: @lightblue;
+        }
+
+        .rt-td-lineinfo {
+            text-align: center;
+        }
+    }
+}
+
+/* next previous page count*/
+.page-count {
+    text-align: center;
+    font-family: Montserrat, Consolas, 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.prev-next-button[disabled] {
+    opacity: 0.45;
+}

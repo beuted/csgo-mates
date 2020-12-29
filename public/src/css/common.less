@@ -1,0 +1,133 @@
+// common
+
+// colors
+@blackgray: rgb(51, 51, 51);
+@red: #c9302c;
+@pink: #c7254e;
+@darkblue: #23527c;
+@blue: rgb(51, 122, 183);
+@lightblue: rgba(51, 122, 183, 0.5);
+@transparent-white: rgba(255, 255, 255, 0.7);
+@transparent-gray: rgba(0, 0, 0, 0.3);
+@transparent-blue: rgba(51, 122, 183, 0.1);
+
+@good: green;
+@middle: #ec971f;
+@bad: @red;
+
+// Bootstrap custome theme
+/*@screen-lg:                    1400px;
+@container-large-desktop:      (1340px + @grid-gutter-width);
+@container-lg:                 @container-large-desktop;*/
+@table-border-color:           @transparent-blue;
+
+// I only when to hide inline stuff
+.hidden-xs, .hidden-sm, .hidden-md {
+    display: inline-block !important;
+}
+
+body {
+    min-width: 620px;
+}
+
+
+.table > tbody > tr > td {
+    border: none;
+}
+
+// titles
+h1 {
+    text-align: center;
+    font-weight: 100;
+    font-size: 60px;
+    margin-top: 0;
+    @media (max-width: @screen-lg) {
+        font-size: 50px;
+    }
+    @media (max-width: @screen-md) {
+        font-size: 40px;
+        font-weight: 200;
+    }
+    @media (max-width: @screen-sm) {
+        font-size: 30px;
+        font-weight: 200;
+    }
+}
+
+h2 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 200;
+}
+
+h3 {
+
+}
+
+h4 {
+
+}
+
+/* status */
+.loading {
+    color: lightgray;
+}
+
+.good {
+    color: @good;
+    i {
+        color: green;
+    }
+}
+
+.middle {
+    color: @middle;
+    i {
+        color: orange;
+    }
+}
+
+.bad {
+    color: @bad;
+    i {
+        color: red;
+    }
+}
+
+/* notify custome theme */
+
+.csgomates-notify, .csgomates-error {
+    padding-bottom: 8px;
+    padding-top: 8px;
+
+    font-weight: 400;
+    font-family: 'Raleway', Verdana, Arial, sans-serif;
+
+    .ngn-dismiss {
+        top: 0;
+        padding-top: 8px;
+        border: none;
+        background-color: inherit;
+        opacity: 1;
+        box-shadow: none;
+        text-shadow: none;
+    }
+}
+
+.csgomates-notify {
+    background-color: rgb(248, 248, 248);
+    color: black;
+
+    .ngn-dismiss {
+        color: black;
+    }
+}
+
+.csgomates-error {
+    background-color: @pink;
+    color: white;
+
+    .ngn-dismiss {
+        color: white;
+    }
+}

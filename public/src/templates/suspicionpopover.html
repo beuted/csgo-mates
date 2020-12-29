@@ -1,0 +1,13 @@
+<div class="suspicion-popover">
+    <ul>
+        <li ng-repeat="pros in player.suspicionStatus.suspicionPros" class="good">
+            {{pros}}
+        </li>
+        <li ng-repeat="pros in player.suspicionStatus.suspicionMiddle" class="middle">
+            {{pros}}
+        </li>
+        <li ng-repeat="pros in player.suspicionStatus.suspicionCons" class="bad">
+            {{pros}}
+        </li>
+    </ul>
+</div>

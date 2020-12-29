@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CS:GO Mates</title>
+    <!-- TODO: create a favicon -->
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Load CSS -->
+    <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="vendors/ng-notify/dist/ng-notify.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+
+    <!-- Load JS libs -->
+    <script type="text/javascript" src="vendors/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="vendors/bignumber.js/bignumber.min.js"></script>
+    <script type="text/javascript" src="vendors/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="vendors/bootstrap-autohidingnavbar/dist/jquery.bootstrap-autohidingnavbar.min.js"></script>
+
+    <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-sanitize/angular-sanitize.min.js"></script>
+    <!--<script type="text/javascript" src="vendors/angular-animate/angular-animate.min.js"></script>-->
+    <script type="text/javascript" src="vendors/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="vendors/ng-notify/dist/ng-notify.min.js"></script>
+    <script type="text/javascript" src="vendors/ngSmoothScroll/angular-smooth-scroll.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
+    <!-- Set metadata type -->
+    <script type="text/javascript">
+        var metadata = { build: "<%= build %>", version: "<%= version %>" };
+    </script>
+
+    <!-- Load JS -->
+    <script type="text/javascript" src="js/app.js?v=<%= version %>"></script>
+    <% if (build !== 'release') { %>
+        <script type="text/javascript" src="js/controllers/mainCtrl.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/controllers/navbarCtrl.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/controllers/resultCtrl.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/controllers/trackerCtrl.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/controllers/historyCtrl.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/controllers/friendsCtrl.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/controllers/serverStatusCtrl.js?v=<%= version %>"></script>
+<!--         <script type="text/javascript" src="js/services/httpRetry.js?v=<%= version %>"></script> -->
+        <script type="text/javascript" src="js/services/steamIdService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/services/searchService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/services/trackingService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/services/historyService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/services/playerInfoDbService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/services/matchService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/services/userService.js?v=<%= version %>"></script>
+        <script type="text/javascript" src="js/directives/playerRowDirective.js?v=<%= version %>"></script>
+    <% } %>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        //ga('create', 'UA-xxxxxxxx-x', 'auto'); setup here your Google Analytics
+        ga('send', 'pageview');
+    </script>
+
+</head>
+<body>
+    <div ng-app="app">
+        <nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavbarCtrl">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><img src="img/headshot-black.png"></img><span class="website-title">CSGO Mates <code>V2</code></span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a ng-click="goToHome()">Home</a></li>
+                        <li>
+                            <a ng-click="goToTracker()"><span ng-class="{'notification' : getNbTrackedCheatersSpotted()}">Suspect list</span>
+                                <div class="trackedLogo">
+                                    <span ng-if="!getNbTrackedCheatersSpotted()">
+                                        <i class="fa fa-eye"></i>
+                                        <span class="trackedCount" ng-class="getNbTrackedPlayers() ? 'good' : 'bad'">{{getNbTrackedPlayers()}}</span>
+                                    </span>
+                                    <span ng-if="getNbTrackedCheatersSpotted()">
+                                        <i class="fa fa-flash"></i>
+                                        <span class="trackedCount bad">{{getNbTrackedCheatersSpotted()}}</span>
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                        <li><a ng-click="goToHistory()"><span ng-class="{'notification' : getNbHistoryCheatersSpotted()}">History</span>
+                                <div class="trackedLogo">
+                                    <span ng-if="!getNbHistoryCheatersSpotted()">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span class="trackedCount" ng-class="getNbHistoryPlayers() ? 'good' : 'bad'">{{getNbHistoryPlayers()}}</span>
+                                    </span>
+                                    <span ng-if="getNbHistoryCheatersSpotted()">
+                                        <i class="fa fa-flash"></i>
+                                        <span class="trackedCount bad">{{getNbHistoryCheatersSpotted()}}</span>
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                        <li><a ng-click="goToHelp()">Help</a></li>
+                        <li class="divider-vertical dropdown" ng-if="user">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                  <div class="profile-box">
+                                      <img class="profile-avatar" ng-src="{{user.avatar}}">
+                                      <span class="profile-name">{{user.personaname}}</span>
+                                      <i class="fa fa-caret-down"></i>
+                                  </div>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="goToProfile()">Profile</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-click="goToFriends()">Friends</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="api/auth/steam/logout">Disconnect</a></li>
+                            </ul>
+                        </li>
+                        <li class="divider-vertical dropdown" ng-if="!user">
+                            <div class="steamLoginButton" action="?login" method="post">
+                                <a href="./api/auth/steam"><img src="./img/sign_in.png"></a>
+                            <div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div ui-view></div>
+
+        <!-- footer -->
+        <footer>
+            <div class="container">
+                <p><a href="http://steamcommunity.com/groups/csgo-mates#announcements">CSGO-Mates v<%= version %> : Tool for the CS-GO community</a> | last release : <%= today %> | Copyright © Benoit Jehanno | Contact : dekajoo [at] gmail [dot] com</p>
+                <p><a href= "http://store.steampowered.com/">Powered by steam</a> | This site is not affiliated with Valve or Steam | <a href="http://steamcommunity.com/groups/csgo-mates" target="_blank">Steam group</a> | <a href="http://steamcommunity.com/groups/csgo-mates/discussions/0/541906989414149495/" target="_blank">F.A.Q</a></p>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
+
+<!-- Author : Benoit Jehanno (dekajoo [at] gmail [dot] com), copyright Benoit Jehanno -->

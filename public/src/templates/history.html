@@ -1,0 +1,55 @@
+<div class="section main-section tracker-section radial" ng-class="bg">
+    <div class="container">
+        <h1 class="responsive_headline"><i class="fa fa-clock-o"></i><br/>
+            <span ng-if="!nbCheaterSpotted">History</span>
+            <span ng-if="nbCheaterSpotted" class="bad">{{nbCheaterSpotted}} Cheater(s) spotted</span>
+        </h1>
+
+        <!-- only visible if loading -->
+        <div ng-if="loading" class="row">
+            <h2 class="col-xs-12"><i class="fa fa-circle-o-notch fa-spin"></i></h2>
+        </div>
+
+        <div class="row" ng-if="!loading&&!playerRows.length">
+            <div class="col-xs-12 globalError">
+                <h4 ng-if="user!==null">You have no players in your history, have a look at the help below</h4>
+                <h4 ng-if="user===null">You have to be connected through steam to access your history, to connect click on the to right "Sign in" button</h4>
+            </div>
+        </div>
+
+        <!-- table of the search result -->
+        <div ng-if="!loading&&playerRows.length" ng-include="'templates/player-table.html'"></div>
+
+    </div>
+</div>
+<div class="section" id="help-section">
+    <div class="container">
+        <div class="row">
+            <h1>See players from your previous games</h1>
+        </div>
+        <div class="row">
+            <p>Here you will be able to see the players you have played against if you searched the game on csgo-mates. Players are <code>ordered chronologically</code> and all the features are avaible on this page. Meaning if you want to add a player from an old match to your suspect list you can do it from this page.</p>
+        </div>
+    </div>
+</div>
+<div class="section features-section" ng-class="bg">
+    <div class="container">
+        <div class="row">
+            <h1>Get notified when someone from your history gets banned</h1>
+        </div>
+        <div class="row">
+            <p>You <code>played with a cheater that you didn't noticed</code> or didn't took the time to add to your suspect list? Csgo-mates will <code>automatically show</code> you that a player from your history got banned the next time you will visit the website! And if you access your history the newly banned players will appear on red.</p>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <h1>Information</h1>
+        </div>
+        <div class="row">
+            <p>Due to technical restrictions I need to work on, the history is <code>limited to 100 players</code> per account <i class="fa fa-frown-o"></i></p>
+        </div>
+    </div>
+</div>

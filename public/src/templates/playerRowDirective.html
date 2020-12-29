@@ -1,0 +1,104 @@
+<tr class="rt-tr" ng-click="goToPlayer()" ng-class="{'searched': player.searched}">
+    <td class="rt-td tdImage">
+        <div ng-if="player.info.name">
+            <div class="bande">
+                <a class="blockimg" ng-href="{{player.info.profileUrl}}" target="_blank">
+                    <a class="info-tip" title="Friends have the same color" data-toggle="tooltip" tooltip><div class="groupcolor {{'color' + player.info.group}}"></div></a>
+                    <div class="flag {{'color' + player.info.group}}">
+                        <img ng-src="{{player.info.countryFlag}}" ng-if="player.info.countryFlag"></img>
+                    </div>
+                </a>
+                <div class="groupcolorExtended {{'color' + player.info.group}}"></div>
+            </div>
+            <span class="blockimg">
+                <img class="imgprofile" ng-src="{{player.info.urlAvatar}}"></img>
+            </span>
+        </div>
+    </td>
+    <td class="rt-td tdKdr figure" ng-class="{'focus' : player.focused}">
+        <div ng-if="player.kdr">
+            <i class="fa fa-crosshairs hidden-sm hidden-xs"></i>
+            <a class="info-tip" ng-click="$event.stopPropagation();" title="Kill/Death ratio" data-toggle="tooltip" tooltip>{{player.kdr}}</a>
+        </div>
+        <div ng-if="!player.kdr && player.info.visibility == 1"><a class="info-tip" title="This player seems to have a private profile" data-toggle="tooltip" tooltip>?</a></div>
+        <div class="rt-td-lineinfo rt-td-nameinfo" ng-if="player.info.name">
+            <a ng-click="$event.stopPropagation();" ng-href="{{player.info.profileUrl}}" target="_blank" title="See Steam profile" data-toggle="tooltip" data-placement="bottom" tooltip>
+                <i class="fa fa-steam"></i> {{player.info.name}}
+            </a>
+        </div>
+    </td>
+
+    <td class="rt-td tdWin figure" ng-class="{'focus' : player.focused}">
+        <div ng-if="player.winPercentage">
+            <i class="fa fa-trophy hidden-sm hidden-xs"></i>
+            <a class="info-tip" ng-click="$event.stopPropagation();" title="Percentage of win" data-toggle="tooltip" tooltip>{{player.winPercentage}}%</a>
+        </div>
+    </td>
+
+    <td class="rt-td tdHs figure">
+        <div ng-if="player.hsPercentage" ng-class="{'focus' : player.focused}">
+            <img src="img/headshot-red.png" class="hidden-sm hidden-xs" ng-if="player.focused"></img>
+            <img src="img/headshot-darkgray.png" class="hidden-sm hidden-xs" ng-if="!player.focused"></img>
+
+            <a class="info-tip" ng-click="$event.stopPropagation();" title="Percentage of headshot" data-toggle="tooltip" tooltip>{{player.hsPercentage}}%</a>
+        </div>
+
+        <div class="rt-td-lineinfo" ng-if="player.hoursPlayed" ng-class="{'focus' : player.focused}">
+            <a class="info-tip" ng-click="$event.stopPropagation();" title="Time spent in csgo matches" data-toggle="tooltip" data-placement="bottom" tooltip>
+                <i class="fa fa-clock-o"></i> {{player.hoursPlayed}} <span class="hidden-sm hidden-xs">hours</span><span class="hidden-md hidden-lg">h</span>
+            </a>
+        </div>
+    </td>
+
+    <td class="rt-td">
+        <div ng-if="player.lastMatch.roundsTotal">
+            <button popover-template="'templates/lastmatchpopover.html'"
+                    popover-trigger="mouseenter"
+                    popover-placement="top"
+                    popover-append-to-body="true"
+                    type="button"
+                    class="btn btn-default popover-button"
+                    ng-click="$event.stopPropagation();">Last match</button>
+        </div>
+        <div class="rt-td-lineinfo" ng-class="{'focus' : player.focused}" ng-if="player.history.lastSeenDate">
+            <a class="info-tip" ng-click="$event.stopPropagation();" title="Last time you searched for this player was {{player.history.lastSeenDate}}" data-toggle="tooltip" data-placement="bottom" tooltip>
+                Seen {{player.history.lastSeenDate.substring(0, 10)}}&#133;
+            </a>
+        </div>
+    </td>
+
+    <td class="rt-td">
+        <button popover-title="Legitimacy hints"
+                popover-template="'templates/suspicionpopover.html'"
+                popover-trigger="mouseenter"
+                popover-placement="top"
+                popover-append-to-body="true"
+                type="button"
+                class="btn btn-default popover-button"
+                ng-click="$event.stopPropagation();">
+            <span ng-class="[{'bad': player.suspicionStatus.suspicionScore < -3}, {'middle': player.suspicionStatus.suspicionScore >= -3 && player.suspicionStatus.suspicionScore < 0}, {'good': player.suspicionStatus.suspicionScore >= 0}]">
+                <span ng-if="player.suspicionStatus.suspicionScore > 0">+</span>{{ player.suspicionStatus.suspicionScore }}
+            </span>
+        </button>
+        <div class="rt-td-lineinfo" ng-class="{'focus' : player.focused}" ng-if="player.history.timeSeen">
+            <a class="info-tip" ng-click="$event.stopPropagation();" title="Number of times you searched for this player" data-toggle="tooltip" data-placement="bottom" tooltip>
+                <i class="fa fa-search"></i> {{player.history.timeSeen}}
+            </a>
+        </div>
+    </td>
+
+    <td class="rt-td tdFlag" ng-class="{'focus' : player.focused}">
+        <a class="eye not-flagged" ng-if="!player.watched" ng-click="setTrackedPlayer(); $event.stopPropagation();" title="Suspect this player" data-toggle="tooltip" tooltip>
+            <i class="fa fa-eye-slash"></i>
+        </a>
+        <a class="eye flagged" ng-if="player.watched" ng-click="removeTrackedPlayer(); $event.stopPropagation();" title="Unsuspect this player" data-toggle="tooltip" tooltip>
+            <i class="fa fa-eye"></i>
+        </a>
+
+        <div class="rt-td-lineinfo td-suspicion-info" ng-class="{'focus' : player.focused}" ng-if="player.suspicionStatus.suspicionCount">
+            <a class="info-tip supspicion-number badge " title="Number of members suspecting this player" data-toggle="tooltip" data-placement="bottom" tooltip>
+                x{{player.suspicionStatus.suspicionCount}}
+            </a>
+        </div>
+    </td>
+</tr>
